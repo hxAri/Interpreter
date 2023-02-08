@@ -1,34 +1,57 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define MAX_COMMAND_LENGTH 100
 
-// Btw I'm so boring
-int main() {
-    char command[MAX_COMMAND_LENGTH];
+void add(int a, int b) {
+    printf("%d\n", a + b);
+}
 
+void subtract(int a, int b) {
+    printf("%d\n", a - b);
+}
+
+void multiply(int a, int b) {
+    printf("%d\n", a * b);
+}
+
+void divide(int a, int b) {
+    printf("%d\n", a / b);
+}
+
+int main() {
+    char input[MAX_COMMAND_LENGTH];
+    char *token;
+    int a, b;
+    
     while (1) {
         printf(">>> ");
-        fgets(command, MAX_COMMAND_LENGTH, stdin);
-
-        // Remove newline character from the end of the command
-        int length = strlen(command);
-        if (command[length - 1] == '\n') {
-            command[length - 1] = '\0';
-        }
-
-        // Exit the interpreter when the "exit" command is entered
-        if (strcmp(command, "exit") == 0) {
+        fgets(input, MAX_COMMAND_LENGTH, stdin);
+        
+        token = strtok(input, " ");
+        if (strcmp(token, "exit\n") == 0) {
             break;
-        }
-
-        // Add your own commands here
-        if (strcmp(command, "hello") == 0) {
-            printf("Hello, World!\n");
+        } else if (strcmp(token, "add\n") == 0) {
+            a = atoi(strtok(NULL, " "));
+            b = atoi(strtok(NULL, " "));
+            add(a, b);
+        } else if (strcmp(token, "subtract\n") == 0) {
+            a = atoi(strtok(NULL, " "));
+            b = atoi(strtok(NULL, " "));
+            subtract(a, b);
+        } else if (strcmp(token, "multiply\n") == 0) {
+            a = atoi(strtok(NULL, " "));
+            b = atoi(strtok(NULL, " "));
+            multiply(a, b);
+        } else if (strcmp(token, "divide\n") == 0) {
+            a = atoi(strtok(NULL, " "));
+            b = atoi(strtok(NULL, " "));
+            divide(a, b);
         } else {
-            printf("Unknown command.\n");
+            printf("Unsupported command: %s", input);
         }
     }
-
+    
     return 0;
 }
